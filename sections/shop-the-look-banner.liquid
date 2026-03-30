@@ -1,0 +1,66 @@
+<section class="shop-the-look-banner section-padding" data-section-id="{{ section.id }}">
+  <div class="{% unless section.settings.full_width %}page-width{% endunless %}">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="heading h2 text-center page-width animate-on-scroll">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    <div class="shop-the-look-banner__wrapper">
+      <div class="shop-the-look-banner__media">
+        {%- if section.settings.image != blank -%}
+          {{ section.settings.image | image_url: width: 1920 | image_tag: loading: 'lazy', sizes: '100vw', widths: '720, 1080, 1440, 1920', class: 'shop-the-look-banner__image' }}
+        {%- else -%}
+          <div class="media media--landscape">{{ 'lifestyle-1' | placeholder_svg_tag }}</div>
+        {%- endif -%}
+
+        {%- for block in section.blocks -%}
+          <button
+            class="hotspot"
+            style="left: {{ block.settings.x_position }}%; top: {{ block.settings.y_position }}%;"
+            data-hotspot="{{ block.id }}"
+            aria-label="View product"
+            {{ block.shopify_attributes }}
+          >
+            <span class="hotspot__dot"></span>
+          </button>
+
+          <div class="hotspot__popup" data-hotspot-popup="{{ block.id }}">
+            {%- assign product = all_products[block.settings.product] -%}
+            {%- if product != blank -%}
+              <a href="{{ product.url }}" class="hotspot__product">
+                {%- if product.featured_media -%}
+                  {{ product.featured_media | image_url: width: 200 | image_tag: loading: 'lazy', width: 80 }}
+                {%- endif -%}
+                <div class="hotspot__product-info">
+                  <span class="hotspot__product-title">{{ product.title }}</span>
+                  <span class="hotspot__product-price">{{ product.price | money }}</span>
+                </div>
+              </a>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Shop the look - Banner",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Shop the look" },
+    { "type": "image_picker", "id": "image", "label": "Banner image" },
+    { "type": "checkbox", "id": "full_width", "label": "Full width", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "hotspot",
+      "name": "Hotspot",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Product" },
+        { "type": "range", "id": "x_position", "label": "Horizontal position", "min": 0, "max": 100, "step": 1, "default": 50, "unit": "%" },
+        { "type": "range", "id": "y_position", "label": "Vertical position", "min": 0, "max": 100, "step": 1, "default": 50, "unit": "%" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Shop the look - Banner", "blocks": [{ "type": "hotspot" }, { "type": "hotspot" }] }]
+}
+{% endschema %}

@@ -1,0 +1,44 @@
+<section class="sticky-image-cards section-padding" data-section-id="{{ section.id }}">
+  <div class="page-width">
+    {%- for block in section.blocks -%}
+      <div class="sticky-image-cards__row{% if forloop.index == 2 %} sticky-image-cards__row--reversed{% endif %}" {{ block.shopify_attributes }}>
+        <div class="sticky-image-cards__media">
+          {%- if block.settings.image != blank -%}
+            <div class="media image-reveal">
+              {{ block.settings.image | image_url: width: 720 | image_tag: loading: 'lazy', sizes: '(min-width: 768px) 50vw, 100vw', widths: '360, 540, 720' }}
+            </div>
+          {%- else -%}
+            <div class="media media--square">{{ 'collection-' | append: forloop.index | placeholder_svg_tag }}</div>
+          {%- endif -%}
+        </div>
+        <div class="sticky-image-cards__content animate-on-scroll">
+          {%- if block.settings.subheading != blank -%}<p class="accent-text">{{ block.settings.subheading }}</p>{%- endif -%}
+          {%- if block.settings.heading != blank -%}<h3 class="heading h2">{{ block.settings.heading }}</h3>{%- endif -%}
+          {%- if block.settings.text != blank -%}<div class="rte">{{ block.settings.text }}</div>{%- endif -%}
+          {%- if block.settings.button_text != blank -%}<a href="{{ block.settings.button_link }}" class="btn btn--primary">{{ block.settings.button_text }}</a>{%- endif -%}
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Sticky image cards",
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Card",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "subheading", "label": "Subheading" },
+        { "type": "text", "id": "heading", "label": "Heading" },
+        { "type": "richtext", "id": "text", "label": "Text" },
+        { "type": "text", "id": "button_text", "label": "Button text" },
+        { "type": "url", "id": "button_link", "label": "Button link" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Sticky image cards", "blocks": [{ "type": "card" }, { "type": "card" }] }]
+}
+{% endschema %}

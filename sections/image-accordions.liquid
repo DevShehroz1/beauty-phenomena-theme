@@ -1,0 +1,43 @@
+<section class="image-accordions section-padding" data-section-id="{{ section.id }}">
+  <div class="{% unless section.settings.full_width %}page-width{% endunless %}">
+    <div class="image-accordions__grid" data-image-accordions>
+      {%- for block in section.blocks -%}
+        <div class="image-accordions__panel{% if forloop.first %} is-active{% endif %}" data-accordion-panel {{ block.shopify_attributes }}>
+          {%- if block.settings.image != blank -%}
+            {{ block.settings.image | image_url: width: 960 | image_tag: loading: 'lazy', class: 'image-accordions__image' }}
+          {%- else -%}
+            <div class="image-accordions__placeholder">{{ 'collection-' | append: forloop.index | placeholder_svg_tag }}</div>
+          {%- endif -%}
+          <div class="image-accordions__content">
+            {%- if block.settings.heading != blank -%}<h3 class="heading h3">{{ block.settings.heading }}</h3>{%- endif -%}
+            {%- if block.settings.text != blank -%}<p>{{ block.settings.text }}</p>{%- endif -%}
+            {%- if block.settings.button_text != blank -%}<a href="{{ block.settings.button_link }}" class="btn btn--secondary">{{ block.settings.button_text }}</a>{%- endif -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Image accordions",
+  "settings": [
+    { "type": "checkbox", "id": "full_width", "label": "Full width", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "panel",
+      "name": "Panel",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "heading", "label": "Heading" },
+        { "type": "textarea", "id": "text", "label": "Text" },
+        { "type": "text", "id": "button_text", "label": "Button text" },
+        { "type": "url", "id": "button_link", "label": "Button link" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Image accordions", "blocks": [{ "type": "panel" }, { "type": "panel" }, { "type": "panel" }, { "type": "panel" }] }]
+}
+{% endschema %}

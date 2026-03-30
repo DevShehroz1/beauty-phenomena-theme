@@ -1,0 +1,22 @@
+/* Shop the Look Grid */
+.shop-the-look-grid__grid h2 { margin-bottom: 32px; }
+.shop-the-look-grid__item h3 { margin: 12px 0 8px; }
+.shop-the-look-grid__product { margin-top: 12px; }
+
+/* Shop the Look Banner */
+.shop-the-look-banner h2 { margin-bottom: 32px; }
+.shop-the-look-banner__wrapper { position: relative; }
+.shop-the-look-banner__media { position: relative; }
+.shop-the-look-banner__image { width: 100%; display: block; }
+
+/* Hotspots */
+.hotspot { position: absolute; z-index: 5; background: none; border: none; cursor: pointer; padding: 8px; transform: translate(-50%, -50%); }
+.hotspot__dot { display: block; width: 24px; height: 24px; background: #fff; border-radius: 50%; border: 2px solid var(--color-accent); animation: hotspotPulse 2s ease-in-out infinite; position: relative; }
+.hotspot__dot::after { content: ''; position: absolute; top: 50%; left: 50%; width: 8px; height: 8px; background: var(--color-accent); border-radius: 50%; transform: translate(-50%, -50%); }
+@keyframes hotspotPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+.hotspot__popup { position: absolute; z-index: 10; background: var(--color-bg); box-shadow: 0 4px 16px rgba(0,0,0,0.12); border-radius: var(--border-radius); padding: 12px; min-width: 220px; opacity: 0; visibility: hidden; transform: translateY(8px); transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease; }
+.hotspot__popup.is-active { opacity: 1; visibility: visible; transform: translateY(0); }
+.hotspot__product { display: flex; align-items: center; gap: 12px; }
+.hotspot__product img { width: 60px; height: 60px; object-fit: cover; border-radius: 4px; }
+.hotspot__product-title { display: block; font-size: 0.9rem; }
+.hotspot__product-price { display: block; font-size: 0.85rem; opacity: 0.7; }
