@@ -1,0 +1,34 @@
+<section class="main-faq section-padding">
+  <div class="page-width customer-page__narrow">
+    <h1 class="heading h1 text-center">{{ page.title | default: 'FAQ' }}</h1>
+    {%- if page.content != blank -%}<div class="main-faq__intro rte text-center">{{ page.content }}</div>{%- endif -%}
+
+    <div class="main-faq__list">
+      {%- for block in section.blocks -%}
+        <details class="accordion" {{ block.shopify_attributes }}>
+          <summary class="accordion__trigger"><span class="heading h4">{{ block.settings.question }}</span>{% render 'icon-plus' %}</summary>
+          <div class="accordion__content rte">{{ block.settings.answer }}</div>
+        </details>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FAQ page",
+  "blocks": [
+    { "type": "question", "name": "Question", "settings": [
+      { "type": "text", "id": "question", "label": "Question", "default": "Frequently asked question" },
+      { "type": "richtext", "id": "answer", "label": "Answer", "default": "<p>Answer goes here.</p>" }
+    ]}
+  ],
+  "default": {
+    "blocks": [
+      { "type": "question", "settings": { "question": "What is your return policy?", "answer": "<p>We accept returns within 30 days of purchase.</p>" } },
+      { "type": "question", "settings": { "question": "How long does shipping take?", "answer": "<p>Standard shipping takes 3-5 business days.</p>" } },
+      { "type": "question", "settings": { "question": "Are your products cruelty-free?", "answer": "<p>Yes, all our products are cruelty-free and never tested on animals.</p>" } }
+    ]
+  }
+}
+{% endschema %}

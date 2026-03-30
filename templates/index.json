@@ -1,0 +1,12 @@
+{
+  "sections": {
+    "slideshow": { "type": "slideshow", "blocks": { "slide1": { "type": "slide", "settings": { "heading": "Beauty Phenomena", "text": "Discover your natural beauty", "button_text": "Shop Now" } }, "slide2": { "type": "slide", "settings": { "heading": "New Arrivals", "button_text": "Explore" } } }, "block_order": ["slide1", "slide2"] },
+    "featured-collection": { "type": "featured-collection", "settings": { "heading": "Best Sellers", "products_to_show": 4 } },
+    "image-with-text": { "type": "image-with-text", "settings": { "heading": "Our Story", "text": "<p>Beauty Phenomena is dedicated to bringing you the finest beauty products inspired by nature.</p>" } },
+    "marquee": { "type": "marquee", "blocks": { "t1": { "type": "text", "settings": { "text": "Clean Beauty" } }, "t2": { "type": "text", "settings": { "text": "Cruelty Free", "highlight": true } }, "t3": { "type": "text", "settings": { "text": "Natural Ingredients" } } }, "block_order": ["t1", "t2", "t3"] },
+    "tab-collections": { "type": "tab-collections", "settings": { "heading": "Shop by Category" } },
+    "testimonials": { "type": "testimonials", "settings": { "heading": "What Our Customers Say" }, "blocks": { "r1": { "type": "testimonial", "settings": { "quote": "Absolutely love these products!", "author": "Sarah M.", "rating": 5 } }, "r2": { "type": "testimonial", "settings": { "quote": "The best skincare I've ever used.", "author": "Emily R.", "rating": 5 } }, "r3": { "type": "testimonial", "settings": { "quote": "My skin has never looked better.", "author": "Jessica L.", "rating": 5 } } }, "block_order": ["r1", "r2", "r3"] },
+    "newsletter": { "type": "newsletter", "settings": { "heading": "Join the Beauty Phenomena Family", "text": "Subscribe and get 10% off your first order." } }
+  },
+  "order": ["slideshow", "featured-collection", "image-with-text", "marquee", "tab-collections", "testimonials", "newsletter"]
+}

@@ -1,0 +1,43 @@
+{% layout none %}
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+  {% render 'meta-tags' %}
+  {{ content_for_header }}
+  {% render 'css-variables' %}
+  {{ 'base.css' | asset_url | stylesheet_tag }}
+  <style>
+    .gift-card { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 40px 24px; }
+    .gift-card__inner { max-width: 500px; text-align: center; }
+    .gift-card__image { margin: 24px auto; max-width: 400px; }
+    .gift-card__code { font-size: 1.5rem; font-family: monospace; letter-spacing: 0.1em; padding: 16px; border: 2px dashed var(--color-accent); margin: 24px 0; word-break: break-all; }
+    .gift-card__balance { font-size: 2rem; margin: 16px 0; }
+    .gift-card__expired { color: #CC0000; }
+    .gift-card__qr { margin: 24px auto; }
+  </style>
+</head>
+<body>
+  <div class="gift-card">
+    <div class="gift-card__inner">
+      <h1 class="heading h2">{{ 'gift_cards.issued.title' | t }}</h1>
+      <p>{{ 'gift_cards.issued.subtext' | t: shop: shop.name }}</p>
+
+      {%- if gift_card.image -%}
+        <img src="{{ gift_card.image | image_url: width: 400 }}" class="gift-card__image" alt="Gift card">
+      {%- endif -%}
+
+      <p class="gift-card__balance heading h1">{{ 'gift_cards.issued.balance' | t: balance: gift_card.balance | money }}</p>
+
+      <div class="gift-card__code" id="gift-card-code">{{ gift_card.code | format_code }}</div>
+
+      {%- if gift_card.expired -%}
+        <p class="gift-card__expired label-text">{{ 'gift_cards.issued.expired' | t }}</p>
+      {%- endif -%}
+
+      <div class="gift-card__qr">{{ gift_card | qr_code: 200 }}</div>
+
+      <button onclick="window.print()" class="btn btn--secondary">{{ 'gift_cards.issued.print' | t }}</button>
+    </div>
+  </div>
+</body>
+</html>
