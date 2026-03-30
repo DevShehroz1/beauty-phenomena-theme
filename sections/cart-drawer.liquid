@@ -1,0 +1,89 @@
+<div class="cart-drawer" id="cart-drawer" data-cart-drawer aria-hidden="true" role="dialog" aria-label="{{ 'cart.general.title' | t }}">
+  <div class="cart-drawer__header">
+    <h2 class="heading h4">{{ 'cart.general.title' | t }} (<span data-cart-count>{{ cart.item_count }}</span>)</h2>
+    <button class="cart-drawer__close" data-cart-drawer-close aria-label="{{ 'general.close' | t }}">
+      {% render 'icon-close' %}
+    </button>
+  </div>
+
+  {%- if settings.cart_free_shipping_threshold > 0 -%}
+    {%- assign threshold_cents = settings.cart_free_shipping_threshold | times: 100 -%}
+    {%- assign remaining = threshold_cents | minus: cart.total_price -%}
+    <div class="cart-drawer__shipping-bar" data-shipping-bar data-threshold="{{ threshold_cents }}">
+      <p class="cart-drawer__shipping-text label-text" data-shipping-text>
+        {%- if remaining > 0 -%}
+          {{ 'cart.general.free_shipping_remaining' | t: amount: remaining | money }}
+        {%- else -%}
+          {{ 'cart.general.free_shipping_achieved' | t }}
+        {%- endif -%}
+      </p>
+      <div class="cart-drawer__progress">
+        {%- assign progress = cart.total_price | times: 100 | divided_by: threshold_cents | at_most: 100 -%}
+        <div class="cart-drawer__progress-bar" style="width: {{ progress }}%;" data-progress-bar></div>
+      </div>
+    </div>
+  {%- endif -%}
+
+  <div class="cart-drawer__items" data-cart-items>
+    {%- if cart.item_count > 0 -%}
+      {%- for item in cart.items -%}
+        <div class="cart-drawer__item" data-line-key="{{ item.key }}">
+          <a href="{{ item.url }}" class="cart-drawer__item-image">
+            {%- if item.image -%}
+              {{ item.image | image_url: width: 160 | image_tag: loading: 'lazy', width: 80 }}
+            {%- endif -%}
+          </a>
+          <div class="cart-drawer__item-info">
+            <a href="{{ item.url }}" class="cart-drawer__item-title">{{ item.product.title }}</a>
+            {%- unless item.product.has_only_default_variant -%}
+              <p class="cart-drawer__item-variant label-text">{{ item.variant.title }}</p>
+            {%- endunless -%}
+            <p class="cart-drawer__item-price">{{ item.final_price | money }}</p>
+            <div class="cart-drawer__item-quantity">
+              {% render 'quantity-selector', input_name: 'quantity', value: item.quantity %}
+            </div>
+          </div>
+          <button class="cart-drawer__item-remove" data-remove-item="{{ item.key }}" aria-label="{{ 'cart.general.remove' | t }}">
+            {% render 'icon-close' %}
+          </button>
+        </div>
+      {%- endfor -%}
+    {%- else -%}
+      <p class="cart-drawer__empty text-center">{{ 'cart.general.empty' | t }}</p>
+    {%- endif -%}
+  </div>
+
+  {%- if settings.cart_enable_discount -%}
+    <div class="cart-drawer__discount">
+      <div class="field">
+        <input type="text" class="field__input" placeholder="{{ 'cart.general.discount_code' | t }}" data-discount-input>
+        <button class="btn btn--secondary" data-discount-apply>{{ 'cart.general.apply' | t }}</button>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- if settings.cart_enable_notes -%}
+    <details class="cart-drawer__notes-toggle">
+      <summary class="label-text">{{ 'cart.general.note' | t }}</summary>
+      <textarea class="field__input" name="note" rows="2" data-cart-note>{{ cart.note }}</textarea>
+    </details>
+  {%- endif -%}
+
+  <div class="cart-drawer__footer">
+    <div class="cart-drawer__subtotal">
+      <span>{{ 'cart.general.subtotal' | t }}</span>
+      <span data-cart-total>{{ cart.total_price | money }}</span>
+    </div>
+    <p class="cart-drawer__shipping-note label-text">{{ 'cart.general.shipping_note' | t }}</p>
+    <a href="{{ routes.cart_url }}/checkout" class="btn btn--primary btn--full cart-drawer__checkout">{{ 'cart.general.checkout' | t }}</a>
+    {%- if settings.enable_dynamic_checkout -%}
+      <div class="cart-drawer__dynamic-checkout">{{ content_for_additional_checkout_buttons }}</div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Cart drawer"
+}
+{% endschema %}

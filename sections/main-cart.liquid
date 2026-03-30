@@ -1,0 +1,68 @@
+<section class="main-cart section-padding" data-section-id="{{ section.id }}">
+  <div class="page-width">
+    <h1 class="heading h2">{{ 'cart.general.title' | t }}</h1>
+
+    {%- if cart.item_count > 0 -%}
+      <form action="{{ routes.cart_url }}" method="post" data-cart-form>
+        <div class="main-cart__grid">
+          <div class="main-cart__items">
+            {%- for item in cart.items -%}
+              <div class="main-cart__item" data-line-item="{{ item.key }}">
+                <a href="{{ item.url }}" class="main-cart__item-image">
+                  {%- if item.image -%}
+                    {{ item.image | image_url: width: 200 | image_tag: loading: 'lazy', width: 100 }}
+                  {%- endif -%}
+                </a>
+                <div class="main-cart__item-info">
+                  <a href="{{ item.url }}" class="main-cart__item-title">{{ item.product.title }}</a>
+                  {%- unless item.product.has_only_default_variant -%}
+                    <p class="main-cart__item-variant label-text">{{ item.variant.title }}</p>
+                  {%- endunless -%}
+                  <p class="main-cart__item-price">{{ item.final_price | money }}</p>
+                </div>
+                <div class="main-cart__item-quantity">
+                  {% render 'quantity-selector', input_name: 'updates[]', value: item.quantity %}
+                </div>
+                <div class="main-cart__item-total">
+                  {{ item.final_line_price | money }}
+                </div>
+                <a href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity=0" class="main-cart__item-remove label-text">{{ 'cart.general.remove' | t }}</a>
+              </div>
+            {%- endfor -%}
+          </div>
+
+          <div class="main-cart__summary">
+            {%- if settings.cart_enable_notes -%}
+              <div class="main-cart__notes field">
+                <label class="field__label" for="cart-note">{{ 'cart.general.note' | t }}</label>
+                <textarea id="cart-note" name="note" class="field__input" rows="3">{{ cart.note }}</textarea>
+              </div>
+            {%- endif -%}
+
+            <div class="main-cart__totals">
+              <div class="main-cart__subtotal">
+                <span>{{ 'cart.general.subtotal' | t }}</span>
+                <span>{{ cart.total_price | money }}</span>
+              </div>
+              <p class="main-cart__shipping-note label-text">{{ 'cart.general.shipping_note' | t }}</p>
+            </div>
+
+            <button type="submit" name="checkout" class="btn btn--primary btn--full">{{ 'cart.general.checkout' | t }}</button>
+            <a href="/" class="main-cart__continue text-center label-text">{{ 'cart.general.continue_shopping' | t }}</a>
+          </div>
+        </div>
+      </form>
+    {%- else -%}
+      <div class="main-cart__empty text-center">
+        <p>{{ 'cart.general.empty' | t }}</p>
+        <a href="/" class="btn btn--primary">{{ 'cart.general.continue_shopping' | t }}</a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Cart page"
+}
+{% endschema %}
