@@ -62,7 +62,11 @@
 
   {% section 'popup' %}
 
+  <script src="{{ 'animations.js' | asset_url }}" defer></script>
+  <script src="{{ 'header.js' | asset_url }}" defer></script>
+  <script src="{{ 'cart.js' | asset_url }}" defer></script>
   <script src="{{ 'theme.js' | asset_url }}" defer></script>
+  <script src="{{ 'recently-viewed.js' | asset_url }}" defer></script>
 
   {%- if request.page_type == 'product' -%}
     <script src="{{ 'product.js' | asset_url }}" defer></script>

@@ -1,3 +1,6 @@
+{{ 'section-main-collection.css' | asset_url | stylesheet_tag }}
+{{ 'component-product-card.css' | asset_url | stylesheet_tag }}
+
 {%- paginate collection.products by section.settings.products_per_page -%}
 <section class="main-collection section-padding" data-section-id="{{ section.id }}">
   <div class="page-width">

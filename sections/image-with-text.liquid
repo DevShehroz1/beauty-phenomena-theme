@@ -1,3 +1,5 @@
+{{ 'section-marquee.css' | asset_url | stylesheet_tag }}
+
 <section class="image-with-text section-padding" data-section-id="{{ section.id }}">
   <div class="page-width">
     <div class="image-with-text__grid{% if section.settings.image_position == 'right' %} image-with-text__grid--reversed{% endif %}">

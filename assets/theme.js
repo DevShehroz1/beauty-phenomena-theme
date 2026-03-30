@@ -90,15 +90,6 @@
     }
   });
 
-  /* ===== Lazy Load Scripts ===== */
-  // Load section-specific scripts as needed
-  ['animations.js', 'slideshow.js', 'header.js', 'cart.js', 'accordion.js', 'hotspots.js', 'countdown.js', 'popup.js', 'recently-viewed.js'].forEach(file => {
-    const script = document.createElement('script');
-    script.src = window.Shopify?.cdnHost
-      ? `https://${window.Shopify.cdnHost}/s/files/1/assets/${file}`
-      : `/assets/${file}`;
-    script.defer = true;
-    document.head.appendChild(script);
-  });
+  /* Scripts are loaded via theme.liquid and individual section files */
 
 })();

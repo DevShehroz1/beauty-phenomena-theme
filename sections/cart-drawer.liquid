@@ -1,3 +1,5 @@
+{{ 'section-cart.css' | asset_url | stylesheet_tag }}
+
 <div class="cart-drawer" id="cart-drawer" data-cart-drawer aria-hidden="true" role="dialog" aria-label="{{ 'cart.general.title' | t }}">
   <div class="cart-drawer__header">
     <h2 class="heading h4">{{ 'cart.general.title' | t }} (<span data-cart-count>{{ cart.item_count }}</span>)</h2>

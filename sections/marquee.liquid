@@ -1,3 +1,5 @@
+{{ 'section-marquee.css' | asset_url | stylesheet_tag }}
+
 <section class="marquee" data-section-id="{{ section.id }}" style="--marquee-speed: {{ section.settings.speed }}s; background-color: {{ section.settings.bg_color }}; color: {{ section.settings.text_color }};">
   <div class="marquee__track" data-marquee{% if section.settings.pause_on_hover %} data-pause-hover{% endif %}>
     <div class="marquee__content">

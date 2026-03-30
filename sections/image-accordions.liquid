@@ -1,3 +1,6 @@
+{{ 'section-image-accordions.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'accordion.js' | asset_url }}" defer></script>
+
 <section class="image-accordions section-padding" data-section-id="{{ section.id }}">
   <div class="{% unless section.settings.full_width %}page-width{% endunless %}">
     <div class="image-accordions__grid" data-image-accordions>

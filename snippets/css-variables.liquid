@@ -1,71 +1,95 @@
 {% style %}
 :root {
   /* Color scheme */
-  {%- assign scheme = settings.default_color_scheme -%}
-  --color-bg: {{ settings['color_scheme_' | append: scheme | append: '_bg'] }};
-  --color-text: {{ settings['color_scheme_' | append: scheme | append: '_text'] }};
-  --color-accent: {{ settings['color_scheme_' | append: scheme | append: '_accent'] }};
-  --color-btn-bg: {{ settings['color_scheme_' | append: scheme | append: '_btn_bg'] }};
-  --color-btn-text: {{ settings['color_scheme_' | append: scheme | append: '_btn_text'] }};
-  --color-secondary-btn-bg: {{ settings['color_scheme_' | append: scheme | append: '_secondary_btn_bg'] }};
-  --color-secondary-btn-text: {{ settings['color_scheme_' | append: scheme | append: '_secondary_btn_text'] }};
-  --color-opacity: {{ settings.color_opacity | divided_by: 100.0 }};
+  {%- assign scheme = settings.default_color_scheme | default: '1' -%}
+  --color-bg: {{ settings['color_scheme_' | append: scheme | append: '_bg'] | default: '#FAF7F4' }};
+  --color-text: {{ settings['color_scheme_' | append: scheme | append: '_text'] | default: '#2C2C2C' }};
+  --color-accent: {{ settings['color_scheme_' | append: scheme | append: '_accent'] | default: '#C4956A' }};
+  --color-btn-bg: {{ settings['color_scheme_' | append: scheme | append: '_btn_bg'] | default: '#B27D5C' }};
+  --color-btn-text: {{ settings['color_scheme_' | append: scheme | append: '_btn_text'] | default: '#FFFFFF' }};
+  --color-secondary-btn-bg: {{ settings['color_scheme_' | append: scheme | append: '_secondary_btn_bg'] | default: 'transparent' }};
+  --color-secondary-btn-text: {{ settings['color_scheme_' | append: scheme | append: '_secondary_btn_text'] | default: '#2C2C2C' }};
+  --color-opacity: {{ settings.color_opacity | default: 100 | divided_by: 100.0 }};
 
   /* Header colors */
-  --color-header-bg: {{ settings.header_bg_color }};
-  --color-header-link: {{ settings.header_link_color }};
-  --color-header-transparent-link: {{ settings.header_transparent_link_color }};
+  --color-header-bg: {{ settings.header_bg_color | default: '#FAF7F4' }};
+  --color-header-link: {{ settings.header_link_color | default: '#2C2C2C' }};
+  --color-header-transparent-link: {{ settings.header_transparent_link_color | default: '#FFFFFF' }};
 
   /* Typography - Headings */
-  --font-heading: {{ settings.heading_font.family }}, {{ settings.heading_font.fallback_families }};
-  --font-heading-weight: {{ settings.heading_font.weight }};
-  --font-heading-style: {{ settings.heading_font.style }};
-  --font-heading-size: {{ settings.heading_size }}px;
+  {%- if settings.heading_font -%}
+    --font-heading: {{ settings.heading_font.family }}, {{ settings.heading_font.fallback_families }};
+    --font-heading-weight: {{ settings.heading_font.weight }};
+    --font-heading-style: {{ settings.heading_font.style }};
+  {%- else -%}
+    --font-heading: "Cormorant Garamond", serif;
+    --font-heading-weight: 400;
+    --font-heading-style: normal;
+  {%- endif -%}
+  --font-heading-size: {{ settings.heading_size | default: 40 }}px;
   --heading-uppercase: {% if settings.heading_uppercase %}uppercase{% else %}none{% endif %};
-  --heading-letter-spacing: {{ settings.heading_letter_spacing | divided_by: 1000.0 }}em;
+  --heading-letter-spacing: {{ settings.heading_letter_spacing | default: 0 | divided_by: 1000.0 }}em;
 
   /* Typography - Body */
-  --font-body: {{ settings.body_font.family }}, {{ settings.body_font.fallback_families }};
-  --font-body-weight: {{ settings.body_font.weight }};
-  --font-body-style: {{ settings.body_font.style }};
-  --font-body-size: {{ settings.body_size }}px;
+  {%- if settings.body_font -%}
+    --font-body: {{ settings.body_font.family }}, {{ settings.body_font.fallback_families }};
+    --font-body-weight: {{ settings.body_font.weight }};
+    --font-body-style: {{ settings.body_font.style }};
+  {%- else -%}
+    --font-body: "Assistant", sans-serif;
+    --font-body-weight: 400;
+    --font-body-style: normal;
+  {%- endif -%}
+  --font-body-size: {{ settings.body_size | default: 16 }}px;
 
   /* Typography - Navigation */
   --font-nav: var({% if settings.nav_font_source == 'heading' %}--font-heading{% else %}--font-body{% endif %});
-  --font-nav-weight: {{ settings.nav_font_weight }};
-  --font-nav-size: {{ settings.nav_size }}px;
+  --font-nav-weight: {{ settings.nav_font_weight | default: 'normal' }};
+  --font-nav-size: {{ settings.nav_size | default: 14 }}px;
   --nav-uppercase: {% if settings.nav_uppercase %}uppercase{% else %}none{% endif %};
-  --nav-letter-spacing: {{ settings.nav_letter_spacing | divided_by: 1000.0 }}em;
+  --nav-letter-spacing: {{ settings.nav_letter_spacing | default: 100 | divided_by: 1000.0 }}em;
 
   /* Typography - Accent */
-  --font-accent: {{ settings.accent_font.family }}, {{ settings.accent_font.fallback_families }};
-  --font-accent-weight: {{ settings.accent_font.weight }};
-  --font-accent-style: {{ settings.accent_font.style }};
-  --font-accent-size: {{ settings.accent_size }}px;
+  {%- if settings.accent_font -%}
+    --font-accent: {{ settings.accent_font.family }}, {{ settings.accent_font.fallback_families }};
+    --font-accent-weight: {{ settings.accent_font.weight }};
+    --font-accent-style: {{ settings.accent_font.style }};
+  {%- else -%}
+    --font-accent: "Cormorant Garamond", serif;
+    --font-accent-weight: 400;
+    --font-accent-style: normal;
+  {%- endif -%}
+  --font-accent-size: {{ settings.accent_size | default: 14 }}px;
   --accent-uppercase: {% if settings.accent_uppercase %}uppercase{% else %}none{% endif %};
-  --accent-letter-spacing: {{ settings.accent_letter_spacing | divided_by: 1000.0 }}em;
+  --accent-letter-spacing: {{ settings.accent_letter_spacing | default: 50 | divided_by: 1000.0 }}em;
 
   /* Typography - Labels */
-  --font-label-weight: {{ settings.label_font_weight }};
-  --font-label-size: {{ settings.label_size }}px;
+  --font-label-weight: {{ settings.label_font_weight | default: 'normal' }};
+  --font-label-size: {{ settings.label_size | default: 12 }}px;
   --label-uppercase: {% if settings.label_uppercase %}uppercase{% else %}none{% endif %};
-  --label-letter-spacing: {{ settings.label_letter_spacing | divided_by: 1000.0 }}em;
+  --label-letter-spacing: {{ settings.label_letter_spacing | default: 100 | divided_by: 1000.0 }}em;
 
   /* Typography - Highlight */
-  --font-highlight: {{ settings.highlight_font.family }}, {{ settings.highlight_font.fallback_families }};
-  --font-highlight-weight: {{ settings.highlight_font.weight }};
-  --font-highlight-style: {{ settings.highlight_font.style }};
+  {%- if settings.highlight_font -%}
+    --font-highlight: {{ settings.highlight_font.family }}, {{ settings.highlight_font.fallback_families }};
+    --font-highlight-weight: {{ settings.highlight_font.weight }};
+    --font-highlight-style: {{ settings.highlight_font.style }};
+  {%- else -%}
+    --font-highlight: "Cormorant Garamond", serif;
+    --font-highlight-weight: 400;
+    --font-highlight-style: italic;
+  {%- endif -%}
 
   /* Layout */
-  --page-width: {{ settings.page_width }}px;
-  --border-radius: {{ settings.border_radius }}px;
-  --section-padding: {% case settings.section_padding %}{% when 'small' %}40px{% when 'medium' %}60px{% when 'large' %}80px{% endcase %};
+  --page-width: {{ settings.page_width | default: 1400 }}px;
+  --border-radius: {{ settings.border_radius | default: 0 }}px;
+  --section-padding: {% case settings.section_padding %}{% when 'small' %}40px{% when 'large' %}80px{% else %}60px{% endcase %};
 
   /* Buttons */
-  --btn-border-radius: {{ settings.button_border_radius }}px;
-  --btn-font-weight: {{ settings.button_font_weight }};
+  --btn-border-radius: {{ settings.button_border_radius | default: 0 }}px;
+  --btn-font-weight: {{ settings.button_font_weight | default: 'normal' }};
   --btn-uppercase: {% if settings.button_uppercase %}uppercase{% else %}none{% endif %};
-  --btn-padding: {% case settings.button_size %}{% when 'small' %}10px 24px{% when 'medium' %}14px 32px{% when 'large' %}18px 40px{% endcase %};
+  --btn-padding: {% case settings.button_size %}{% when 'small' %}10px 24px{% when 'large' %}18px 40px{% else %}14px 32px{% endcase %};
 
   /* Animation */
   --transition-duration: 0.3s;
@@ -79,7 +103,15 @@
 }
 {% endstyle %}
 
-{{ settings.heading_font | font_face: font_display: 'swap' }}
-{{ settings.body_font | font_face: font_display: 'swap' }}
-{{ settings.accent_font | font_face: font_display: 'swap' }}
-{{ settings.highlight_font | font_face: font_display: 'swap' }}
+{%- if settings.heading_font -%}
+  {{ settings.heading_font | font_face: font_display: 'swap' }}
+{%- endif -%}
+{%- if settings.body_font -%}
+  {{ settings.body_font | font_face: font_display: 'swap' }}
+{%- endif -%}
+{%- if settings.accent_font -%}
+  {{ settings.accent_font | font_face: font_display: 'swap' }}
+{%- endif -%}
+{%- if settings.highlight_font -%}
+  {{ settings.highlight_font | font_face: font_display: 'swap' }}
+{%- endif -%}

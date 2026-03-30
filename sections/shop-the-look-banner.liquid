@@ -1,3 +1,6 @@
+{{ 'section-shop-the-look.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'hotspots.js' | asset_url }}" defer></script>
+
 <section class="shop-the-look-banner section-padding" data-section-id="{{ section.id }}">
   <div class="{% unless section.settings.full_width %}page-width{% endunless %}">
     {%- if section.settings.heading != blank -%}

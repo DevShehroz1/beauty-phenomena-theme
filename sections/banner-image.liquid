@@ -1,3 +1,5 @@
+{{ 'section-slideshow.css' | asset_url | stylesheet_tag }}
+
 <section class="banner-image section-padding" data-section-id="{{ section.id }}" style="--banner-height: {{ section.settings.height }};">
   <div class="banner-image__wrapper{% unless section.settings.full_width %} page-width{% endunless %}">
     <div class="banner-image__media{% if section.settings.parallax %} parallax{% endif %}">

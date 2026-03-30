@@ -1,3 +1,5 @@
+{{ 'section-header.css' | asset_url | stylesheet_tag }}
+
 {%- liquid
   assign transparent = false
   if section.settings.transparent_header and template.name == 'index'

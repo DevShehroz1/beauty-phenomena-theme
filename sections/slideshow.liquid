@@ -1,3 +1,6 @@
+{{ 'section-slideshow.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'slideshow.js' | asset_url }}" defer></script>
+
 <div
   class="slideshow{% if section.settings.full_width %} slideshow--full{% endif %}"
   data-section-id="{{ section.id }}"
