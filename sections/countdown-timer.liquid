@@ -1,0 +1,29 @@
+<section class="countdown-timer section-padding" data-section-id="{{ section.id }}" style="background-color: {{ section.settings.bg_color }}; color: {{ section.settings.text_color }};">
+  <div class="page-width text-center">
+    {%- if section.settings.heading != blank -%}<h2 class="heading h2 animate-on-scroll">{{ section.settings.heading }}</h2>{%- endif -%}
+    {%- if section.settings.text != blank -%}<p class="countdown-timer__text animate-on-scroll">{{ section.settings.text }}</p>{%- endif -%}
+    <div class="countdown-timer__clock animate-on-scroll" data-countdown data-date="{{ section.settings.end_date }}">
+      <div class="countdown-timer__unit"><span class="countdown-timer__number heading h1" data-countdown-days>00</span><span class="countdown-timer__label label-text">{{ 'sections.countdown.days' | t }}</span></div>
+      <div class="countdown-timer__unit"><span class="countdown-timer__number heading h1" data-countdown-hours>00</span><span class="countdown-timer__label label-text">{{ 'sections.countdown.hours' | t }}</span></div>
+      <div class="countdown-timer__unit"><span class="countdown-timer__number heading h1" data-countdown-minutes>00</span><span class="countdown-timer__label label-text">{{ 'sections.countdown.minutes' | t }}</span></div>
+      <div class="countdown-timer__unit"><span class="countdown-timer__number heading h1" data-countdown-seconds>00</span><span class="countdown-timer__label label-text">{{ 'sections.countdown.seconds' | t }}</span></div>
+    </div>
+    {%- if section.settings.button_text != blank -%}<a href="{{ section.settings.button_link }}" class="btn btn--primary animate-on-scroll">{{ section.settings.button_text }}</a>{%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Countdown timer",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Limited time offer" },
+    { "type": "text", "id": "text", "label": "Text" },
+    { "type": "text", "id": "end_date", "label": "End date", "info": "Format: YYYY-MM-DD HH:MM" },
+    { "type": "text", "id": "button_text", "label": "Button text", "default": "Shop now" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "color", "id": "bg_color", "label": "Background", "default": "#2C2C2C" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#FAF7F4" }
+  ],
+  "presets": [{ "name": "Countdown timer" }]
+}
+{% endschema %}

@@ -1,0 +1,20 @@
+<section class="divider" data-section-id="{{ section.id }}" style="padding: {{ section.settings.padding }}px 0;">
+  {%- if section.settings.style == 'line' -%}
+    <div class="page-width"><hr class="divider__line" style="border-color: {{ section.settings.color }}; opacity: {{ section.settings.opacity | divided_by: 100.0 }};"></div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Divider",
+  "settings": [
+    { "type": "select", "id": "style", "label": "Style", "default": "line", "options": [
+      { "value": "line", "label": "Line" }, { "value": "space", "label": "Space only" }
+    ]},
+    { "type": "range", "id": "padding", "label": "Spacing", "min": 10, "max": 80, "step": 5, "default": 30, "unit": "px" },
+    { "type": "color", "id": "color", "label": "Line color", "default": "#2C2C2C" },
+    { "type": "range", "id": "opacity", "label": "Opacity", "min": 5, "max": 100, "step": 5, "default": 10, "unit": "%" }
+  ],
+  "presets": [{ "name": "Divider" }]
+}
+{% endschema %}

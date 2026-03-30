@@ -1,0 +1,15 @@
+{%- if section.settings.code != blank -%}
+<div class="custom-code" data-section-id="{{ section.id }}">
+  {{ section.settings.code }}
+</div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Custom code",
+  "settings": [
+    { "type": "html", "id": "code", "label": "Custom HTML / CSS / JS" }
+  ],
+  "presets": [{ "name": "Custom code" }]
+}
+{% endschema %}
