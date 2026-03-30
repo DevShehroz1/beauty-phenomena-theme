@@ -1,0 +1,167 @@
+<footer class="footer section-padding" data-section-id="{{ section.id }}">
+  <div class="page-width">
+    <div class="footer__grid">
+      {%- for block in section.blocks -%}
+        <div class="footer__block footer__block--{{ block.type }}" {{ block.shopify_attributes }}>
+          {%- case block.type -%}
+
+            {%- when 'menu' -%}
+              {%- if block.settings.heading != blank -%}
+                <h4 class="footer__heading label-text">{{ block.settings.heading }}</h4>
+              {%- endif -%}
+              {%- if block.settings.menu != blank -%}
+                <ul class="footer__menu">
+                  {%- for link in linklists[block.settings.menu].links -%}
+                    <li><a href="{{ link.url }}" class="footer__link">{{ link.title }}</a></li>
+                  {%- endfor -%}
+                </ul>
+              {%- endif -%}
+
+            {%- when 'text' -%}
+              {%- if block.settings.heading != blank -%}
+                <h4 class="footer__heading label-text">{{ block.settings.heading }}</h4>
+              {%- endif -%}
+              {%- if block.settings.text != blank -%}
+                <div class="footer__text rte">{{ block.settings.text }}</div>
+              {%- endif -%}
+
+            {%- when 'newsletter' -%}
+              {%- if block.settings.heading != blank -%}
+                <h4 class="footer__heading label-text">{{ block.settings.heading }}</h4>
+              {%- endif -%}
+              {%- if block.settings.text != blank -%}
+                <p class="footer__newsletter-text">{{ block.settings.text }}</p>
+              {%- endif -%}
+              {%- form 'customer', id: 'footer-newsletter' -%}
+                <input type="hidden" name="contact[tags]" value="newsletter">
+                <div class="footer__newsletter-form">
+                  <input
+                    type="email"
+                    name="contact[email]"
+                    class="field__input footer__newsletter-input"
+                    placeholder="{{ 'newsletter.email_placeholder' | t }}"
+                    required
+                    autocomplete="email"
+                  >
+                  <button type="submit" class="btn btn--primary footer__newsletter-btn">
+                    {{ 'newsletter.submit' | t }}
+                  </button>
+                </div>
+              {%- endform -%}
+
+            {%- when 'social' -%}
+              {%- if block.settings.heading != blank -%}
+                <h4 class="footer__heading label-text">{{ block.settings.heading }}</h4>
+              {%- endif -%}
+              <div class="footer__social">
+                {%- if settings.social_instagram != blank -%}
+                  <a href="{{ settings.social_instagram }}" target="_blank" rel="noopener" aria-label="Instagram">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+                  </a>
+                {%- endif -%}
+                {%- if settings.social_facebook != blank -%}
+                  <a href="{{ settings.social_facebook }}" target="_blank" rel="noopener" aria-label="Facebook">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3V2z"/></svg>
+                  </a>
+                {%- endif -%}
+                {%- if settings.social_twitter != blank -%}
+                  <a href="{{ settings.social_twitter }}" target="_blank" rel="noopener" aria-label="Twitter">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5 0-.28-.01-.56-.04-.83A7.72 7.72 0 0023 3z"/></svg>
+                  </a>
+                {%- endif -%}
+                {%- if settings.social_tiktok != blank -%}
+                  <a href="{{ settings.social_tiktok }}" target="_blank" rel="noopener" aria-label="TikTok">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z"/></svg>
+                  </a>
+                {%- endif -%}
+                {%- if settings.social_pinterest != blank -%}
+                  <a href="{{ settings.social_pinterest }}" target="_blank" rel="noopener" aria-label="Pinterest">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.08 3.15 9.42 7.6 11.21-.1-.95-.19-2.4.04-3.44.21-.94 1.36-5.78 1.36-5.78s-.35-.7-.35-1.72c0-1.62.94-2.83 2.1-2.83.99 0 1.47.74 1.47 1.63 0 1-.63 2.49-.96 3.87-.27 1.15.58 2.09 1.71 2.09 2.06 0 3.64-2.17 3.64-5.3 0-2.77-1.99-4.7-4.84-4.7-3.3 0-5.24 2.47-5.24 5.03 0 1 .38 2.06.86 2.64a.36.36 0 01.08.32c-.09.38-.29 1.15-.33 1.31-.05.22-.18.26-.41.16-1.55-.72-2.52-2.97-2.52-4.78 0-3.89 2.83-7.47 8.15-7.47 4.28 0 7.6 3.05 7.6 7.13 0 4.25-2.68 7.68-6.4 7.68-1.25 0-2.42-.65-2.83-1.42l-.77 2.94c-.28 1.08-1.04 2.43-1.55 3.26C9.58 23.81 10.77 24 12 24c6.63 0 12-5.37 12-12S18.63 0 12 0z"/></svg>
+                  </a>
+                {%- endif -%}
+                {%- if settings.social_youtube != blank -%}
+                  <a href="{{ settings.social_youtube }}" target="_blank" rel="noopener" aria-label="YouTube">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.19a3.02 3.02 0 00-2.12-2.14C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.38.55A3.02 3.02 0 00.5 6.19 31.6 31.6 0 000 12a31.6 31.6 0 00.5 5.81 3.02 3.02 0 002.12 2.14c1.88.55 9.38.55 9.38.55s7.5 0 9.38-.55a3.02 3.02 0 002.12-2.14A31.6 31.6 0 0024 12a31.6 31.6 0 00-.5-5.81zM9.75 15.02V8.98L15.5 12l-5.75 3.02z"/></svg>
+                  </a>
+                {%- endif -%}
+              </div>
+
+          {%- endcase -%}
+        </div>
+      {%- endfor -%}
+    </div>
+
+    {%- comment -%} Payment icons & copyright {%- endcomment -%}
+    <div class="footer__bottom">
+      {%- if section.settings.show_payment_icons -%}
+        <div class="footer__payment">
+          {%- for type in shop.enabled_payment_types -%}
+            {{ type | payment_type_svg_tag: class: 'footer__payment-icon' }}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      <div class="footer__copyright">
+        <p>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.</p>
+        <p>{{ powered_by_link }}</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_payment_icons",
+      "label": "Show payment icons",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "menu",
+      "name": "Menu",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading" },
+        { "type": "link_list", "id": "menu", "label": "Menu" }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading" },
+        { "type": "richtext", "id": "text", "label": "Text" }
+      ]
+    },
+    {
+      "type": "newsletter",
+      "name": "Newsletter",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Newsletter" },
+        { "type": "text", "id": "text", "label": "Description", "default": "Subscribe to get special offers and updates." }
+      ]
+    },
+    {
+      "type": "social",
+      "name": "Social media",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Follow us" }
+      ]
+    }
+  ],
+  "default": {
+    "blocks": [
+      { "type": "menu", "settings": { "heading": "Quick links", "menu": "footer" } },
+      { "type": "text", "settings": { "heading": "About", "text": "<p>Share your brand story with customers.</p>" } },
+      { "type": "newsletter" },
+      { "type": "social" }
+    ]
+  }
+}
+{% endschema %}
