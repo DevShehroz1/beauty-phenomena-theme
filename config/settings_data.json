@@ -1,0 +1,29 @@
+{
+  "current": "Phenomena",
+  "presets": {
+    "Phenomena": {
+      "color_scheme_1_bg": "#FAF7F4",
+      "color_scheme_1_text": "#2C2C2C",
+      "color_scheme_1_accent": "#C4956A",
+      "color_scheme_1_btn_bg": "#B27D5C",
+      "color_scheme_1_btn_text": "#FFFFFF",
+      "default_color_scheme": "1",
+      "heading_font": "cormorant_garamond_n4",
+      "body_font": "assistant_n4",
+      "heading_size": 40,
+      "body_size": 16,
+      "heading_uppercase": false,
+      "nav_uppercase": true,
+      "nav_letter_spacing": 100,
+      "page_width": 1400,
+      "border_radius": 0,
+      "section_padding": "medium",
+      "button_uppercase": true,
+      "button_border_radius": 0,
+      "product_card_hover": "image_swap",
+      "product_card_show_swatches": true,
+      "cart_type": "drawer",
+      "sticky_header": true
+    }
+  }
+}
