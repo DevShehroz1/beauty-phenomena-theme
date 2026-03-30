@@ -1,0 +1,17 @@
+<section class="recently-viewed section-padding" data-section-id="{{ section.id }}" data-recently-viewed>
+  <div class="page-width">
+    <h2 class="heading h2 text-center animate-on-scroll">{{ section.settings.heading | default: 'Recently viewed' }}</h2>
+    <div class="recently-viewed__grid grid grid--4" data-recently-viewed-grid></div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Recently viewed",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Recently viewed" },
+    { "type": "range", "id": "products_to_show", "label": "Products to show", "min": 2, "max": 8, "step": 1, "default": 4 }
+  ],
+  "presets": [{ "name": "Recently viewed" }]
+}
+{% endschema %}
