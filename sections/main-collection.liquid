@@ -1,0 +1,112 @@
+{%- paginate collection.products by section.settings.products_per_page -%}
+<section class="main-collection section-padding" data-section-id="{{ section.id }}">
+  <div class="page-width">
+    {% render 'breadcrumb' %}
+
+    {%- if section.settings.show_banner and collection.image -%}
+      <div class="main-collection__banner">
+        <div class="media media--landscape">
+          {{ collection.image | image_url: width: 1400 | image_tag: loading: 'eager', sizes: '100vw', widths: '720, 1080, 1400' }}
+        </div>
+        <div class="main-collection__banner-content">
+          <h1 class="heading h1">{{ collection.title }}</h1>
+          {%- if collection.description != blank -%}<p>{{ collection.description }}</p>{%- endif -%}
+        </div>
+      </div>
+    {%- else -%}
+      <h1 class="heading h1 main-collection__title">{{ collection.title }}</h1>
+      {%- if collection.description != blank -%}<p class="main-collection__description">{{ collection.description }}</p>{%- endif -%}
+    {%- endif -%}
+
+    <div class="main-collection__toolbar">
+      <div class="main-collection__count label-text">
+        {{ 'collections.general.items' | t: count: collection.products_count }}
+      </div>
+
+      <div class="main-collection__actions">
+        {%- if section.settings.enable_filtering -%}
+          <button class="main-collection__filter-btn label-text" data-filter-toggle>
+            {{ 'collections.general.filter' | t }} {% render 'icon-plus' %}
+          </button>
+        {%- endif -%}
+
+        {%- if section.settings.enable_sorting -%}
+          <div class="main-collection__sort">
+            <label class="sr-only" for="sort-by">{{ 'collections.general.sort_by' | t }}</label>
+            <select id="sort-by" class="field__input main-collection__sort-select" data-sort-select>
+              {%- for option in collection.sort_options -%}
+                <option value="{{ option.value }}" {% if collection.sort_by == option.value %}selected{% endif %}>{{ option.name }}</option>
+              {%- endfor -%}
+            </select>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- if section.settings.enable_filtering -%}
+      <div class="main-collection__filters" data-filters hidden>
+        {%- for filter in collection.filters -%}
+          <div class="main-collection__filter-group">
+            <h3 class="label-text">{{ filter.label }}</h3>
+            {%- case filter.type -%}
+              {%- when 'list' -%}
+                <ul class="main-collection__filter-list">
+                  {%- for value in filter.values -%}
+                    <li>
+                      <label class="main-collection__filter-option">
+                        <input type="checkbox" name="{{ value.param_name }}" value="{{ value.value }}" {% if value.active %}checked{% endif %} data-filter-input>
+                        <span>{{ value.label }} ({{ value.count }})</span>
+                      </label>
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              {%- when 'price_range' -%}
+                <div class="main-collection__price-range">
+                  <input type="number" name="{{ filter.min_value.param_name }}" value="{{ filter.min_value.value | money_without_currency }}" min="0" placeholder="Min" class="field__input" data-filter-input>
+                  <span>—</span>
+                  <input type="number" name="{{ filter.max_value.param_name }}" value="{{ filter.max_value.value | money_without_currency }}" max="{{ filter.range_max | money_without_currency }}" placeholder="Max" class="field__input" data-filter-input>
+                </div>
+            {%- endcase -%}
+          </div>
+        {%- endfor -%}
+        {%- if collection.filters.size > 0 -%}
+          <a href="{{ collection.url }}" class="main-collection__clear-filters label-text">{{ 'collections.general.clear_filters' | t }}</a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if collection.products.size > 0 -%}
+      <div class="main-collection__grid grid grid--{{ section.settings.columns }}" data-collection-grid>
+        {%- for product in collection.products -%}
+          <div class="animate-on-scroll stagger-{{ forloop.index | modulo: 5 | plus: 1 }}">
+            {% render 'product-card', product: product %}
+          </div>
+        {%- endfor -%}
+      </div>
+
+      {%- if paginate.pages > 1 -%}
+        <div class="main-collection__pagination">
+          {% render 'pagination' %}
+        </div>
+      {%- endif -%}
+    {%- else -%}
+      <p class="main-collection__empty text-center">{{ 'collections.general.no_products' | t }}</p>
+    {%- endif -%}
+  </div>
+</section>
+{%- endpaginate -%}
+
+{% schema %}
+{
+  "name": "Collection page",
+  "settings": [
+    { "type": "checkbox", "id": "show_banner", "label": "Show collection banner", "default": true },
+    { "type": "range", "id": "products_per_page", "label": "Products per page", "min": 8, "max": 48, "step": 4, "default": 16 },
+    { "type": "select", "id": "columns", "label": "Columns", "default": "4", "options": [
+      { "value": "2", "label": "2" }, { "value": "3", "label": "3" }, { "value": "4", "label": "4" }
+    ]},
+    { "type": "checkbox", "id": "enable_filtering", "label": "Enable filtering", "default": true },
+    { "type": "checkbox", "id": "enable_sorting", "label": "Enable sorting", "default": true }
+  ]
+}
+{% endschema %}
