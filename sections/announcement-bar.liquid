@@ -1,0 +1,74 @@
+{%- if section.settings.show_announcement -%}
+<div class="announcement-bar" data-section-id="{{ section.id }}" data-section-type="announcement-bar" role="region" aria-label="Announcement"
+  style="background-color: {{ section.settings.bg_color }}; color: {{ section.settings.text_color }};">
+  <div class="page-width announcement-bar__inner">
+    {%- if section.settings.link != blank -%}
+      <a href="{{ section.settings.link }}" class="announcement-bar__link">
+    {%- endif -%}
+
+    <p class="announcement-bar__message label-text">{{ section.settings.text }}</p>
+
+    {%- if section.settings.show_countdown and section.settings.countdown_date != blank -%}
+      <div class="announcement-bar__countdown" data-countdown data-date="{{ section.settings.countdown_date }}">
+        <span data-countdown-days>00</span>d
+        <span data-countdown-hours>00</span>h
+        <span data-countdown-minutes>00</span>m
+        <span data-countdown-seconds>00</span>s
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.link != blank -%}
+      </a>
+    {%- endif -%}
+  </div>
+</div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Announcement bar",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_announcement",
+      "label": "Show announcement",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Text",
+      "default": "Free shipping on orders over $100"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Link"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#2C2C2C"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#FAF7F4"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_countdown",
+      "label": "Show countdown",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "countdown_date",
+      "label": "Countdown end date",
+      "info": "Format: YYYY-MM-DD HH:MM"
+    }
+  ]
+}
+{% endschema %}
