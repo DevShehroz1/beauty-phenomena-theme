@@ -1,0 +1,43 @@
+<section class="multicolumn section-padding" data-section-id="{{ section.id }}">
+  <div class="page-width">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="heading h2 text-center animate-on-scroll">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    <div class="grid grid--{{ section.settings.columns }}">
+      {%- for block in section.blocks -%}
+        <div class="multicolumn__item text-center animate-on-scroll stagger-{{ forloop.index }}" {{ block.shopify_attributes }}>
+          {%- if block.settings.image != blank -%}
+            <div class="multicolumn__image">
+              {{ block.settings.image | image_url: width: 540 | image_tag: loading: 'lazy', sizes: '(min-width: 768px) 25vw, 50vw', widths: '270, 540' }}
+            </div>
+          {%- endif -%}
+          {%- if block.settings.heading != blank -%}<h3 class="heading h4">{{ block.settings.heading }}</h3>{%- endif -%}
+          {%- if block.settings.text != blank -%}<p class="multicolumn__text">{{ block.settings.text }}</p>{%- endif -%}
+          {%- if block.settings.button_text != blank -%}<a href="{{ block.settings.button_link }}" class="btn btn--secondary">{{ block.settings.button_text }}</a>{%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Multicolumn",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading" },
+    { "type": "select", "id": "columns", "label": "Columns", "default": "3", "options": [
+      { "value": "2", "label": "2" }, { "value": "3", "label": "3" }, { "value": "4", "label": "4" }
+    ]}
+  ],
+  "blocks": [
+    { "type": "column", "name": "Column", "settings": [
+      { "type": "image_picker", "id": "image", "label": "Image" },
+      { "type": "text", "id": "heading", "label": "Heading" },
+      { "type": "textarea", "id": "text", "label": "Text" },
+      { "type": "text", "id": "button_text", "label": "Button text" },
+      { "type": "url", "id": "button_link", "label": "Button link" }
+    ]}
+  ],
+  "presets": [{ "name": "Multicolumn", "blocks": [{ "type": "column" }, { "type": "column" }, { "type": "column" }] }]
+}
+{% endschema %}
