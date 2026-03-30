@@ -1,0 +1,53 @@
+<article class="main-article section-padding">
+  <div class="page-width">
+    {% render 'breadcrumb' %}
+
+    <header class="main-article__header text-center">
+      <p class="main-article__meta label-text">
+        {{ 'blogs.article.by_author' | t: author: article.author }} &middot; {{ 'blogs.article.posted_on' | t: date: article.published_at | date: '%B %d, %Y' }}
+      </p>
+      <h1 class="heading h1">{{ article.title }}</h1>
+    </header>
+
+    {%- if article.image -%}
+      <div class="main-article__image">
+        {{ article.image | image_url: width: 1200 | image_tag: loading: 'eager', sizes: '(min-width: 768px) 80vw, 100vw', widths: '720, 960, 1200' }}
+      </div>
+    {%- endif -%}
+
+    <div class="main-article__content rte">
+      {{ article.content }}
+    </div>
+
+    <footer class="main-article__footer">
+      {% render 'social-sharing' %}
+
+      {%- if blog.comments_enabled? -%}
+        <div class="main-article__comments">
+          <h2 class="heading h3">{{ 'blogs.article.comments' | t: count: article.comments_count }}</h2>
+          {%- for comment in article.comments -%}
+            <div class="main-article__comment">
+              <p class="label-text">{{ comment.author }} &middot; {{ comment.created_at | date: '%B %d, %Y' }}</p>
+              <div class="rte">{{ comment.content }}</div>
+            </div>
+          {%- endfor -%}
+
+          {%- form 'new_comment', article -%}
+            <div class="main-article__comment-form">
+              <div class="field"><label class="field__label" for="comment-author">Name</label><input type="text" id="comment-author" name="comment[author]" class="field__input" required></div>
+              <div class="field"><label class="field__label" for="comment-email">Email</label><input type="email" id="comment-email" name="comment[email]" class="field__input" required></div>
+              <div class="field"><label class="field__label" for="comment-body">Comment</label><textarea id="comment-body" name="comment[body]" class="field__input" rows="4" required></textarea></div>
+              <button type="submit" class="btn btn--primary">Post comment</button>
+            </div>
+          {%- endform -%}
+        </div>
+      {%- endif -%}
+
+      <a href="{{ blog.url }}" class="main-article__back accent-text">{{ 'blogs.article.back_to_blog' | t: blog_title: blog.title }}</a>
+    </footer>
+  </div>
+</article>
+
+{% schema %}
+{ "name": "Article page" }
+{% endschema %}

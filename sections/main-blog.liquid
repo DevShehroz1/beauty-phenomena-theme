@@ -1,0 +1,31 @@
+{%- paginate blog.articles by 12 -%}
+<section class="main-blog section-padding">
+  <div class="page-width">
+    {% render 'breadcrumb' %}
+    <h1 class="heading h1">{{ blog.title }}</h1>
+
+    {%- if blog.tags.size > 0 -%}
+      <div class="main-blog__tags">
+        <a href="{{ blog.url }}" class="main-blog__tag label-text{% unless current_tags %} is-active{% endunless %}">All</a>
+        {%- for tag in blog.all_tags -%}
+          <a href="{{ blog.url }}/tagged/{{ tag | handleize }}" class="main-blog__tag label-text{% if current_tags contains tag %} is-active{% endif %}">{{ tag }}</a>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    <div class="grid grid--3">
+      {%- for article in blog.articles -%}
+        <div class="animate-on-scroll stagger-{{ forloop.index | modulo: 3 | plus: 1 }}">
+          {% render 'blog-card', article: article %}
+        </div>
+      {%- endfor -%}
+    </div>
+
+    {% render 'pagination' %}
+  </div>
+</section>
+{%- endpaginate -%}
+
+{% schema %}
+{ "name": "Blog page" }
+{% endschema %}

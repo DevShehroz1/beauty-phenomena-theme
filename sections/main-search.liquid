@@ -1,0 +1,44 @@
+{%- paginate search.results by 24 -%}
+<section class="main-search section-padding">
+  <div class="page-width">
+    <h1 class="heading h1 text-center">{{ 'search.title' | t }}</h1>
+
+    <form action="{{ routes.search_url }}" method="get" role="search" class="main-search__form">
+      <div class="main-search__input-wrapper">
+        <input type="search" name="q" value="{{ search.terms | escape }}" class="field__input main-search__input" placeholder="{{ 'search.placeholder' | t }}" autocomplete="off">
+        <button type="submit" class="btn btn--primary">{{ 'general.search' | t }}</button>
+      </div>
+    </form>
+
+    {%- if search.performed -%}
+      {%- if search.results_count > 0 -%}
+        <p class="main-search__count label-text text-center">{{ search.results_count }} results for "{{ search.terms }}"</p>
+        <div class="grid grid--4">
+          {%- for result in search.results -%}
+            <div class="animate-on-scroll">
+              {%- case result.object_type -%}
+                {%- when 'product' -%}
+                  {% render 'product-card', product: result %}
+                {%- when 'article' -%}
+                  {% render 'blog-card', article: result %}
+                {%- when 'page' -%}
+                  <div class="search-result__page">
+                    <h3><a href="{{ result.url }}">{{ result.title }}</a></h3>
+                    <p>{{ result.content | strip_html | truncate: 120 }}</p>
+                  </div>
+              {%- endcase -%}
+            </div>
+          {%- endfor -%}
+        </div>
+        {% render 'pagination' %}
+      {%- else -%}
+        <p class="main-search__empty text-center">{{ 'general.no_results' | t }}</p>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</section>
+{%- endpaginate -%}
+
+{% schema %}
+{ "name": "Search page" }
+{% endschema %}
