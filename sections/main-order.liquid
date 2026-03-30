@@ -1,0 +1,31 @@
+<section class="customer-page section-padding">
+  <div class="page-width">
+    <h1 class="heading h2">{{ 'customer.orders.order_number' | t }} {{ order.name }}</h1>
+    <p class="label-text">{{ order.created_at | date: '%B %d, %Y' }}</p>
+
+    <table class="customer-page__table">
+      <thead><tr><th>Product</th><th>SKU</th><th>Price</th><th>Qty</th><th>Total</th></tr></thead>
+      <tbody>
+        {%- for line_item in order.line_items -%}
+          <tr>
+            <td><a href="{{ line_item.product.url }}">{{ line_item.title }}</a></td>
+            <td>{{ line_item.sku }}</td>
+            <td>{{ line_item.final_price | money }}</td>
+            <td>{{ line_item.quantity }}</td>
+            <td>{{ line_item.final_line_price | money }}</td>
+          </tr>
+        {%- endfor -%}
+      </tbody>
+    </table>
+
+    <div class="customer-page__order-summary">
+      <p>Subtotal: {{ order.subtotal_price | money }}</p>
+      {%- for shipping_method in order.shipping_methods -%}<p>Shipping ({{ shipping_method.title }}): {{ shipping_method.price | money }}</p>{%- endfor -%}
+      {%- for tax_line in order.tax_lines -%}<p>Tax ({{ tax_line.title }}): {{ tax_line.price | money }}</p>{%- endfor -%}
+      <p><strong>Total: {{ order.total_price | money }}</strong></p>
+    </div>
+
+    <a href="{{ routes.account_url }}" class="accent-text">&larr; {{ 'customer.account.title' | t }}</a>
+  </div>
+</section>
+{% schema %} { "name": "Order page" } {% endschema %}

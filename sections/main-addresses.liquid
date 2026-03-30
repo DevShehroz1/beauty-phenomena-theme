@@ -1,0 +1,21 @@
+<section class="customer-page section-padding">
+  <div class="page-width">
+    <h1 class="heading h2">{{ 'customer.addresses.title' | t }}</h1>
+
+    <div class="customer-page__addresses">
+      {%- for address in customer.addresses -%}
+        <div class="customer-page__address">
+          {%- if address == customer.default_address -%}<span class="badge badge--new">{{ 'customer.addresses.default' | t }}</span>{%- endif -%}
+          <p>{{ address | format_address }}</p>
+          <div class="customer-page__address-actions">
+            <a href="{{ routes.account_addresses_url }}/{{ address.id }}/edit" class="label-text">{{ 'customer.addresses.edit' | t }}</a>
+            <button data-confirm-message="Are you sure?" data-target="{{ routes.account_addresses_url }}/{{ address.id }}" class="label-text" onclick="if(confirm(this.dataset.confirmMessage)){Shopify.postLink(this.dataset.target,{parameters:{_method:'delete'}})}">{{ 'customer.addresses.delete' | t }}</button>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <a href="{{ routes.account_addresses_url }}/new" class="btn btn--primary">{{ 'customer.addresses.add_new' | t }}</a>
+  </div>
+</section>
+{% schema %} { "name": "Addresses page" } {% endschema %}
