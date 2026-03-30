@@ -1,0 +1,30 @@
+{%- comment -%}
+  Renders a responsive image.
+  Accepts:
+  - media: {Object} image or media object
+  - aspect_ratio: {String} 'natural', 'square', 'portrait', 'landscape'
+  - sizes: {String} sizes attribute
+  - lazy: {Boolean} lazy load (default: true)
+  - class: {String} additional CSS class
+{%- endcomment -%}
+
+{%- liquid
+  assign lazy = lazy | default: true
+  assign aspect_ratio = aspect_ratio | default: 'natural'
+-%}
+
+<div class="media{% unless aspect_ratio == 'natural' %} media--{{ aspect_ratio }}{% endunless %} {{ class }}">
+  {%- if media -%}
+    {{
+      media
+      | image_url: width: 1800
+      | image_tag:
+        loading: lazy | ternary: 'lazy', 'eager',
+        sizes: sizes | default: '100vw',
+        widths: '180, 360, 540, 720, 900, 1080, 1296, 1512, 1728',
+        class: 'media__image'
+    }}
+  {%- else -%}
+    {{ 'image' | placeholder_svg_tag: 'media__placeholder' }}
+  {%- endif -%}
+</div>

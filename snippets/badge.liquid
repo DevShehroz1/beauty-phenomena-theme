@@ -1,0 +1,31 @@
+{%- comment -%}
+  Renders product badges.
+  Accepts:
+  - product: {Object} product
+{%- endcomment -%}
+
+{%- liquid
+  assign show_badge = settings.product_card_show_badge
+  unless show_badge
+    break
+  endunless
+-%}
+
+<div class="badge-wrapper">
+  {%- if product.compare_at_price > product.price -%}
+    <span class="badge badge--sale">{{ 'products.badges.sale' | t }}</span>
+  {%- endif -%}
+
+  {%- for tag in product.tags -%}
+    {%- case tag -%}
+      {%- when 'new' -%}
+        <span class="badge badge--new">{{ 'products.badges.new' | t }}</span>
+      {%- when 'best-seller' -%}
+        <span class="badge badge--best-seller">{{ 'products.badges.best_seller' | t }}</span>
+      {%- when 'limited' -%}
+        <span class="badge badge--limited">{{ 'products.badges.limited' | t }}</span>
+      {%- when 'final-sale' -%}
+        <span class="badge badge--final-sale">{{ 'products.badges.final_sale' | t }}</span>
+    {%- endcase -%}
+  {%- endfor -%}
+</div>

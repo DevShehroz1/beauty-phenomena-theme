@@ -1,0 +1,103 @@
+{%- comment -%}
+  Renders a product card.
+  Accepts:
+  - product: {Object} product
+  - show_vendor: {Boolean}
+  - show_price: {Boolean}
+  - show_swatches: {Boolean}
+  - image_aspect_ratio: {String}
+{%- endcomment -%}
+
+{%- liquid
+  assign show_vendor = show_vendor | default: settings.product_card_show_vendor
+  assign show_price = show_price | default: settings.product_card_show_price
+  assign show_swatches = show_swatches | default: settings.product_card_show_swatches
+  assign quick_add = settings.product_card_quick_add
+  assign hover_effect = settings.product_card_hover
+  assign aspect_ratio = image_aspect_ratio | default: settings.product_card_aspect_ratio
+  assign first_image = product.featured_media
+  assign second_image = product.media[1]
+-%}
+
+<div class="product-card" data-product-card>
+  <a href="{{ product.url }}" class="product-card__link" aria-label="{{ product.title }}">
+    <div class="product-card__media media{% unless aspect_ratio == 'natural' %} media--{{ aspect_ratio }}{% endunless %}">
+      {%- if first_image -%}
+        {{
+          first_image
+          | image_url: width: 720
+          | image_tag:
+            loading: 'lazy',
+            sizes: '(min-width: 1025px) 25vw, (min-width: 768px) 33vw, 50vw',
+            widths: '180, 360, 540, 720',
+            class: 'product-card__image product-card__image--primary'
+        }}
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag: 'product-card__placeholder' }}
+      {%- endif -%}
+
+      {%- if second_image and hover_effect == 'image_swap' -%}
+        {{
+          second_image
+          | image_url: width: 720
+          | image_tag:
+            loading: 'lazy',
+            sizes: '(min-width: 1025px) 25vw, (min-width: 768px) 33vw, 50vw',
+            widths: '180, 360, 540, 720',
+            class: 'product-card__image product-card__image--hover'
+        }}
+      {%- endif -%}
+
+      {% render 'badge', product: product %}
+    </div>
+  </a>
+
+  <div class="product-card__info">
+    {%- if show_vendor and product.vendor != blank -%}
+      <span class="product-card__vendor label-text">{{ product.vendor }}</span>
+    {%- endif -%}
+
+    <a href="{{ product.url }}" class="product-card__title">{{ product.title }}</a>
+
+    {%- if show_price -%}
+      {% render 'price', product: product %}
+    {%- endif -%}
+
+    {%- if show_swatches -%}
+      {% render 'swatch', product: product, style: 'circle' %}
+    {%- endif -%}
+  </div>
+
+  {%- if quick_add != 'none' -%}
+    <div class="product-card__quick-add">
+      {%- if product.variants.size == 1 -%}
+        <form method="post" action="{{ routes.cart_add_url }}" data-quick-add-form>
+          <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+          <input type="hidden" name="quantity" value="1">
+          <button
+            type="submit"
+            class="{% if quick_add == 'button' %}btn btn--primary btn--full{% else %}product-card__quick-add-icon{% endif %}"
+            {% unless product.available %}disabled{% endunless %}
+          >
+            {%- if quick_add == 'icon' -%}
+              {% render 'icon-cart' %}
+            {%- else -%}
+              {{ 'products.product.quick_add' | t }}
+            {%- endif -%}
+          </button>
+        </form>
+      {%- else -%}
+        <a
+          href="{{ product.url }}"
+          class="{% if quick_add == 'button' %}btn btn--primary btn--full{% else %}product-card__quick-add-icon{% endif %}"
+        >
+          {%- if quick_add == 'icon' -%}
+            {% render 'icon-cart' %}
+          {%- else -%}
+            {{ 'products.product.quick_add' | t }}
+          {%- endif -%}
+        </a>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+</div>

@@ -1,0 +1,27 @@
+{%- comment -%}
+  Renders a blog article card.
+  Accepts:
+  - article: {Object} article
+{%- endcomment -%}
+
+<article class="blog-card">
+  {%- if article.image -%}
+    <a href="{{ article.url }}" class="blog-card__media">
+      <div class="media media--landscape">
+        {{
+          article.image
+          | image_url: width: 720
+          | image_tag: loading: 'lazy', sizes: '(min-width: 768px) 33vw, 100vw', widths: '360, 540, 720', class: 'blog-card__image'
+        }}
+      </div>
+    </a>
+  {%- endif -%}
+  <div class="blog-card__info">
+    <span class="blog-card__date label-text">{{ article.published_at | date: '%B %d, %Y' }}</span>
+    <h3 class="blog-card__title"><a href="{{ article.url }}">{{ article.title }}</a></h3>
+    {%- if article.excerpt.size > 0 -%}
+      <p class="blog-card__excerpt">{{ article.excerpt_or_content | strip_html | truncate: 120 }}</p>
+    {%- endif -%}
+    <a href="{{ article.url }}" class="blog-card__link accent-text">{{ 'blogs.article.read_more' | t }}</a>
+  </div>
+</article>

@@ -1,0 +1,23 @@
+{%- comment -%}
+  Renders a collection card.
+  Accepts:
+  - collection: {Object} collection
+{%- endcomment -%}
+
+<a href="{{ collection.url }}" class="collection-card">
+  <div class="collection-card__media media media--portrait">
+    {%- if collection.featured_image -%}
+      {{
+        collection.featured_image
+        | image_url: width: 720
+        | image_tag: loading: 'lazy', sizes: '(min-width: 768px) 33vw, 50vw', widths: '360, 540, 720', class: 'collection-card__image'
+      }}
+    {%- else -%}
+      {{ 'collection-1' | placeholder_svg_tag: 'collection-card__placeholder' }}
+    {%- endif -%}
+  </div>
+  <div class="collection-card__info">
+    <h3 class="collection-card__title heading h4">{{ collection.title }}</h3>
+    <span class="collection-card__count label-text">{{ 'collections.general.items' | t: count: collection.products_count }}</span>
+  </div>
+</a>

@@ -1,0 +1,39 @@
+{%- comment -%}
+  Renders color swatches for a product.
+  Accepts:
+  - product: {Object} product
+  - option_name: {String} option name to render swatches for
+  - style: {String} 'circle' or 'rectangle'
+{%- endcomment -%}
+
+{%- liquid
+  assign style = style | default: 'circle'
+  assign option_index = nil
+
+  for option in product.options_with_values
+    assign option_name_lower = option.name | downcase
+    if option_name_lower == 'color' or option_name_lower == 'colour'
+      assign option_index = forloop.index0
+      assign color_option = option
+      break
+    endif
+  endfor
+-%}
+
+{%- if option_index != nil -%}
+  <div class="swatch-list" data-option-index="{{ option_index }}">
+    {%- for value in color_option.values -%}
+      {%- assign color_handle = value | handleize -%}
+      <button
+        type="button"
+        class="swatch swatch--{{ style }}{% if forloop.first %} is-active{% endif %}"
+        data-value="{{ value }}"
+        aria-label="{{ value }}"
+        style="--swatch-color: {{ color_handle }};"
+        title="{{ value }}"
+      >
+        <span class="sr-only">{{ value }}</span>
+      </button>
+    {%- endfor -%}
+  </div>
+{%- endif -%}
