@@ -1,0 +1,9 @@
+.tab-collections__header { margin-bottom: 32px; }
+.tab-collections__tabs { display: flex; justify-content: center; gap: 24px; margin-bottom: 32px; flex-wrap: wrap; }
+.tab-collections__tab { background: none; border: none; cursor: pointer; padding: 8px 4px; position: relative; opacity: 0.5; transition: opacity 0.3s ease; }
+.tab-collections__tab.is-active { opacity: 1; }
+.tab-collections__tab::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 1px; background: currentColor; transition: width 0.3s ease; }
+.tab-collections__tab.is-active::after { width: 100%; }
+.tab-collections__panel { animation: tabFadeIn 0.4s ease; }
+.tab-collections__panel[hidden] { display: none; }
+@keyframes tabFadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }

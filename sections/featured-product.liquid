@@ -1,0 +1,61 @@
+<section class="featured-product section-padding" data-section-id="{{ section.id }}">
+  <div class="page-width">
+    {%- assign product = all_products[section.settings.product] -%}
+    {%- if product != blank -%}
+      <div class="featured-product__grid">
+        <div class="featured-product__media animate-on-scroll">
+          <div class="media">
+            {{ product.featured_media | image_url: width: 960 | image_tag: loading: 'lazy', sizes: '(min-width: 768px) 50vw, 100vw', widths: '480, 720, 960' }}
+          </div>
+        </div>
+        <div class="featured-product__info animate-on-scroll stagger-1">
+          {%- if product.vendor != blank -%}
+            <p class="featured-product__vendor accent-text">{{ product.vendor }}</p>
+          {%- endif -%}
+          <h2 class="featured-product__title heading h2">{{ product.title }}</h2>
+          {% render 'price', product: product %}
+          <div class="featured-product__description rte">{{ product.description }}</div>
+          <form method="post" action="{{ routes.cart_add_url }}" data-quick-add-form>
+            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+            <input type="hidden" name="quantity" value="1">
+            {%- if product.variants.size > 1 -%}
+              <div class="featured-product__variants">
+                {%- for option in product.options_with_values -%}
+                  <div class="field">
+                    <label class="field__label" for="featured-option-{{ forloop.index }}">{{ option.name }}</label>
+                    <select id="featured-option-{{ forloop.index }}" class="field__input" data-option-selector>
+                      {%- for value in option.values -%}
+                        <option value="{{ value }}">{{ value }}</option>
+                      {%- endfor -%}
+                    </select>
+                  </div>
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+            <button type="submit" class="btn btn--primary btn--full" {% unless product.available %}disabled{% endunless %}>
+              {%- if product.available -%}{{ 'products.product.add_to_cart' | t }}{%- else -%}{{ 'products.product.sold_out' | t }}{%- endif -%}
+            </button>
+          </form>
+        </div>
+      </div>
+    {%- else -%}
+      <div class="featured-product__grid">
+        <div class="featured-product__media"><div class="media media--square">{{ 'product-1' | placeholder_svg_tag }}</div></div>
+        <div class="featured-product__info">
+          <h2 class="heading h2">Featured product</h2>
+          <p>Select a product in the theme editor.</p>
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured product",
+  "settings": [
+    { "type": "product", "id": "product", "label": "Product" }
+  ],
+  "presets": [{ "name": "Featured product" }]
+}
+{% endschema %}

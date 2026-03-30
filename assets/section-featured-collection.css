@@ -1,0 +1,36 @@
+.featured-collection__header { text-align: center; margin-bottom: 40px; }
+.featured-collection__subheading { margin-bottom: 8px; }
+.featured-collection__heading { margin-bottom: 12px; }
+.featured-collection__description { max-width: 600px; margin: 0 auto; opacity: 0.8; }
+.featured-collection__view-all { margin-top: 40px; }
+
+/* Featured Product */
+.featured-product__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+@media screen and (max-width: 767px) { .featured-product__grid { grid-template-columns: 1fr; } }
+.featured-product__vendor { margin-bottom: 8px; }
+.featured-product__title { margin-bottom: 16px; }
+.featured-product__description { margin: 20px 0; }
+.featured-product__variants { display: flex; flex-direction: column; gap: 16px; margin-bottom: 20px; }
+
+/* Products List */
+.products-list__header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+.products-list__view-all { display: inline-flex; align-items: center; gap: 6px; }
+.products-list__view-all svg { width: 16px; height: 16px; }
+.products-list__scroll { display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 4px; }
+.products-list__scroll::-webkit-scrollbar { display: none; }
+.products-list__item { flex: 0 0 260px; scroll-snap-align: start; }
+
+/* Products with Image */
+.products-with-image__grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 40px; align-items: start; }
+.products-with-image__grid--reversed { direction: rtl; }
+.products-with-image__grid--reversed > * { direction: ltr; }
+@media screen and (max-width: 767px) { .products-with-image__grid, .products-with-image__grid--reversed { grid-template-columns: 1fr; direction: ltr; } }
+.products-with-image__image-heading { margin-top: 16px; }
+
+/* Collection List */
+.collection-list__header { margin-bottom: 32px; }
+.collection-card { display: block; text-align: center; }
+.collection-card__info { padding: 16px 0; }
+.collection-card__title { margin-bottom: 4px; }
+.collection-card__image { transition: transform 0.6s ease; }
+.collection-card:hover .collection-card__image { transform: scale(1.03); }

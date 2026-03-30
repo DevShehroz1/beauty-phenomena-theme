@@ -1,0 +1,53 @@
+<section class="products-with-image section-padding" data-section-id="{{ section.id }}">
+  <div class="page-width">
+    <div class="products-with-image__grid{% if section.settings.image_position == 'right' %} products-with-image__grid--reversed{% endif %}">
+      <div class="products-with-image__media animate-on-scroll">
+        {%- if section.settings.image != blank -%}
+          <div class="media media--portrait">
+            {{ section.settings.image | image_url: width: 720 | image_tag: loading: 'lazy', sizes: '(min-width: 768px) 40vw, 100vw', widths: '360, 540, 720' }}
+          </div>
+        {%- else -%}
+          <div class="media media--portrait">{{ 'collection-1' | placeholder_svg_tag }}</div>
+        {%- endif -%}
+        {%- if section.settings.image_heading != blank -%}
+          <h3 class="products-with-image__image-heading heading h3">{{ section.settings.image_heading }}</h3>
+        {%- endif -%}
+      </div>
+      <div class="products-with-image__products">
+        {%- assign collection = collections[section.settings.collection] -%}
+        <div class="grid grid--2">
+          {%- if collection != blank -%}
+            {%- for product in collection.products limit: section.settings.products_to_show -%}
+              <div class="animate-on-scroll stagger-{{ forloop.index }}">
+                {% render 'product-card', product: product %}
+              </div>
+            {%- endfor -%}
+          {%- else -%}
+            {%- for i in (1..4) -%}
+              <div class="animate-on-scroll">
+                <div class="product-card"><div class="product-card__media media media--portrait">{{ 'product-' | append: forloop.index | placeholder_svg_tag }}</div><div class="product-card__info"><span class="product-card__title">Example product</span></div></div>
+              </div>
+            {%- endfor -%}
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Products with image",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "text", "id": "image_heading", "label": "Image heading" },
+    { "type": "select", "id": "image_position", "label": "Image position", "default": "left", "options": [
+      { "value": "left", "label": "Left" },
+      { "value": "right", "label": "Right" }
+    ]},
+    { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "range", "id": "products_to_show", "label": "Products to show", "min": 2, "max": 6, "step": 1, "default": 4 }
+  ],
+  "presets": [{ "name": "Products with image" }]
+}
+{% endschema %}

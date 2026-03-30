@@ -1,0 +1,42 @@
+<section class="collection-list section-padding" data-section-id="{{ section.id }}">
+  <div class="page-width">
+    {%- if section.settings.heading != blank -%}
+      <div class="collection-list__header text-center">
+        <h2 class="heading h2 animate-on-scroll">{{ section.settings.heading }}</h2>
+      </div>
+    {%- endif -%}
+
+    <div class="grid grid--{{ section.settings.columns }}">
+      {%- for block in section.blocks -%}
+        {%- assign collection = collections[block.settings.collection] -%}
+        <div class="animate-on-scroll stagger-{{ forloop.index }}" {{ block.shopify_attributes }}>
+          {% render 'collection-card', collection: collection %}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection list",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Collections" },
+    { "type": "select", "id": "columns", "label": "Columns", "default": "3", "options": [
+      { "value": "2", "label": "2" },
+      { "value": "3", "label": "3" },
+      { "value": "4", "label": "4" }
+    ]}
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        { "type": "collection", "id": "collection", "label": "Collection" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Collection list", "blocks": [{ "type": "collection" }, { "type": "collection" }, { "type": "collection" }] }]
+}
+{% endschema %}
