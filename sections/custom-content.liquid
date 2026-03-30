@@ -1,0 +1,54 @@
+<section class="custom-content section-padding" data-section-id="{{ section.id }}">
+  <div class="page-width">
+    <div class="grid grid--{{ section.settings.columns }}">
+      {%- for block in section.blocks -%}
+        <div class="custom-content__block animate-on-scroll" {{ block.shopify_attributes }}>
+          {%- case block.type -%}
+            {%- when 'text' -%}
+              {%- if block.settings.heading != blank -%}<h3 class="heading h3">{{ block.settings.heading }}</h3>{%- endif -%}
+              {%- if block.settings.text != blank -%}<div class="rte">{{ block.settings.text }}</div>{%- endif -%}
+            {%- when 'image' -%}
+              {%- if block.settings.image != blank -%}
+                {{ block.settings.image | image_url: width: 720 | image_tag: loading: 'lazy', sizes: '(min-width: 768px) 50vw, 100vw', widths: '360, 540, 720' }}
+              {%- endif -%}
+            {%- when 'video' -%}
+              {%- if block.settings.video_url != blank -%}
+                <div class="custom-content__video media media--landscape">
+                  <iframe src="{{ block.settings.video_url }}" allow="autoplay" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;"></iframe>
+                </div>
+              {%- endif -%}
+            {%- when 'html' -%}
+              {{ block.settings.html }}
+          {%- endcase -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Custom content",
+  "settings": [
+    { "type": "select", "id": "columns", "label": "Columns", "default": "2", "options": [
+      { "value": "1", "label": "1" }, { "value": "2", "label": "2" }, { "value": "3", "label": "3" }
+    ]}
+  ],
+  "blocks": [
+    { "type": "text", "name": "Text", "settings": [
+      { "type": "text", "id": "heading", "label": "Heading" },
+      { "type": "richtext", "id": "text", "label": "Text" }
+    ]},
+    { "type": "image", "name": "Image", "settings": [
+      { "type": "image_picker", "id": "image", "label": "Image" }
+    ]},
+    { "type": "video", "name": "Video", "settings": [
+      { "type": "text", "id": "video_url", "label": "Video URL" }
+    ]},
+    { "type": "html", "name": "HTML", "settings": [
+      { "type": "html", "id": "html", "label": "HTML" }
+    ]}
+  ],
+  "presets": [{ "name": "Custom content", "blocks": [{ "type": "text" }, { "type": "image" }] }]
+}
+{% endschema %}

@@ -1,0 +1,44 @@
+<section class="testimonials section-padding" data-section-id="{{ section.id }}">
+  <div class="page-width">
+    {%- if section.settings.heading != blank -%}<h2 class="heading h2 text-center animate-on-scroll">{{ section.settings.heading }}</h2>{%- endif -%}
+    <div class="testimonials__grid grid grid--{{ section.settings.columns }}">
+      {%- for block in section.blocks -%}
+        <div class="testimonials__item text-center animate-on-scroll stagger-{{ forloop.index }}" {{ block.shopify_attributes }}>
+          {%- if block.settings.rating > 0 -%}
+            <div class="testimonials__stars">
+              {%- for i in (1..block.settings.rating) -%}{% render 'icon-star' %}{%- endfor -%}
+            </div>
+          {%- endif -%}
+          {%- if block.settings.quote != blank -%}<blockquote class="testimonials__quote">{{ block.settings.quote }}</blockquote>{%- endif -%}
+          {%- if block.settings.image != blank -%}
+            <div class="testimonials__avatar">
+              {{ block.settings.image | image_url: width: 80 | image_tag: loading: 'lazy', width: 48, height: 48, class: 'testimonials__avatar-img' }}
+            </div>
+          {%- endif -%}
+          {%- if block.settings.author != blank -%}<cite class="testimonials__author label-text">{{ block.settings.author }}</cite>{%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Testimonials",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "What our customers say" },
+    { "type": "select", "id": "columns", "label": "Columns", "default": "3", "options": [
+      { "value": "2", "label": "2" }, { "value": "3", "label": "3" }
+    ]}
+  ],
+  "blocks": [
+    { "type": "testimonial", "name": "Testimonial", "settings": [
+      { "type": "range", "id": "rating", "label": "Stars", "min": 0, "max": 5, "step": 1, "default": 5 },
+      { "type": "textarea", "id": "quote", "label": "Quote", "default": "This is an amazing product!" },
+      { "type": "text", "id": "author", "label": "Author", "default": "Customer name" },
+      { "type": "image_picker", "id": "image", "label": "Author photo" }
+    ]}
+  ],
+  "presets": [{ "name": "Testimonials", "blocks": [{ "type": "testimonial" }, { "type": "testimonial" }, { "type": "testimonial" }] }]
+}
+{% endschema %}
